@@ -53,7 +53,6 @@ A settings page is also available where you can adjust the settings. You can:
 
 1. Upload the folder 'kk-ratings' found inside the zip to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-
 1. Adjust the settings under the settings->kk Star Ratings page in wp-admin.
 
 
