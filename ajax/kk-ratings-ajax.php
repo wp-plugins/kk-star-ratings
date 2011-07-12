@@ -47,7 +47,7 @@ if(isset($_POST['id']) && ((!strcmp($_POST['op'], 'get') && $Ratings['ratings'])
 	$Ratings['avg'] = round($Ratings['ratings']/$Ratings['casts'],1).'/5';
 	$Ratings['legend'] = $kkratings_options['legend'];
 	$Ratings['legend'] = str_replace('[total]',$Ratings['casts'], $Ratings['legend']);
-	$Ratings['legend'] = str_replace('[rating]',$Ratings['avg'], $Ratings['legend']);
+	$Ratings['legend'] = str_replace('[avg]',$Ratings['avg'], $Ratings['legend']);
 	$Ratings['legend'] = str_replace('[per]',$Ratings['per'].'%', $Ratings['legend']);
 	
 	echo "SUCCESS|||".$Ratings['per'].'|||'.$Ratings['legend'].'|||'.$Ratings['open'];

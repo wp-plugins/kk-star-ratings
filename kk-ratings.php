@@ -105,6 +105,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 		}
 		public function activate()
 		{
+		    $this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
 		    if(!count($this->options)) :
 				$this->options['enable'] = 1; // 1, 0
 				$this->options['clear'] = 0; // 1, 0
@@ -114,7 +115,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 				$this->options['show_in_pages'] = 0; // 1, 0
 				$this->options['unique'] = 0; // 1, 0
 				$this->options['position'] = 'top-left'; // 'top-left', 'top-right', 'bottom-left', 'bottom-right'
-				$this->options['legend'] = '[rating]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
+				$this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
 				$this->options['init_msg'] = 'Be the first to rate it!'; // string
 				$this->update_options();
 			endif;
