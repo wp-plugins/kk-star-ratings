@@ -106,6 +106,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 		public function activate()
 		{
 		    $this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
+			$this->update_options();
 		    if(!count($this->options)) :
 				$this->options['enable'] = 1; // 1, 0
 				$this->options['clear'] = 0; // 1, 0
