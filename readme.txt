@@ -79,11 +79,10 @@ First of all make sure you have selected where to display the ratings in the set
 2. The Output
 
 
-
 == Changelog == 
 
-1. Fixed the [avg] error, so now it will display average ratings properly.
-
+= 1.0 =
+* Fixed the [avg] error, so now it will display average ratings properly.
 
 
 == Upgrade Notice ==
