@@ -81,7 +81,7 @@ First of all make sure you have selected where to display the ratings in the set
 
 == Changelog == 
 
-= 1.0 =
+= 1.1 =
 * Fixed the [avg] error, so now it will display average ratings properly.
 
 
