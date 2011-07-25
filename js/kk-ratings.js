@@ -81,7 +81,7 @@ jQuery(document).ready( function($){
 					}
 					$('.stars-turned-on', obj).fadeIn(1000);
 			  });
-
+            
 			var id = $("span:eq(0)",obj).html();
 			$(obj).addClass('open');
 			$.ajax({
@@ -89,7 +89,6 @@ jQuery(document).ready( function($){
 				   url: settings.path+"ajax/kk-ratings-ajax.php",
 				   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=get&id="+id,
 				   success: function(msg){
-				       
 					   msg = msg.replace(/^\s+|\s+$/g,"");
 					   var response = msg.split('|||');
 					   if(response[0]=='SUCCESS')
