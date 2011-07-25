@@ -11,7 +11,7 @@ License: GPLv2 or later
 */
 
 // Make sure class does not already exist (Playing safe).
-if(!class_exists('kk_Ratings') && !isset($kkratings)) :
+if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_star_ratings')) :
 
     // Declare and define the plugin class.
 	class kk_Ratings
@@ -210,10 +210,10 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 				add_filter('the_excerpt', array(&$this, 'filter_content'));
 			}
 		}
-		public function markup()
+		public function markup($id=false)
 		{
 			$markup = '<div class="kk-ratings open">
-						  <span>'.get_the_ID().'</span>
+						  <span>'.(!$id?get_the_ID():$id).'</span>
 						  <div class="stars-turned-on"> </div>
 						  <!--.stars-turned-on-->
 						  <div class="hover-panel"> 
@@ -271,6 +271,12 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 			endif;
 			return $content;
 		}
+		public function kk_star_rating($pid=false)
+		{
+		    if($this->options['enable'])
+				return $this->markup($pid);
+			return '';
+		}
 	}
 	
 	// Instantiate the plugin
@@ -283,6 +289,13 @@ if(!class_exists('kk_Ratings') && !isset($kkratings)) :
 	add_action('init', array($kkratings, 'init'));
 	// add shortcode handler
     add_shortcode('kkratings', array($kkratings, 'do_it_manually'));
+	
+	function kk_star_ratings($pid=false)
+	{
+		global $kkratings;
+		return $kkratings->kk_star_rating($pid);
+	}
+	
 endif;
 
 ?>

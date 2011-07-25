@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.1.3
 
-Stable tag: 1.1
+Stable tag: 1.2
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -83,6 +83,9 @@ First of all make sure you have selected where to display the ratings in the set
 
 = 1.1 =
 * Fixed the [avg] error, so now it will display average ratings properly.
+
+= 1.2 =
+* Added possibility to show ratings of any post anywhere in your theme files.
 
 
 == Upgrade Notice ==
