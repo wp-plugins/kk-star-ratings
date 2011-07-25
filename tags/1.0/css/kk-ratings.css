@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+
+.kk-ratings {
+	margin: 0px 5px;
+	padding: 0px;
+	height: 40px;
+	width: 120px;
+	position: relative;
+	background-image: url(../images/off.png);
+	background-repeat: repeat-x;
+}
+.kk-ratings .stars-turned-on {
+	margin: 0px;
+	padding: 0px;
+	width: 0%;
+	height: 24px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 0;
+	background-image: url(../images/on.png);
+	background-repeat: repeat-x;
+}
+.kk-ratings .stars-turned-strict {
+	background-image: url(../images/over.png) !important;
+}
+.kk-ratings .hover-panel {
+	margin: 0px;
+	padding: 0px;
+	height: 24px;
+	width: 120px;
+	position: relative;
+	z-index: 1;
+}
+.kk-ratings .hover-panel a {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	height: 24px;
+	width: 24px;
+	text-decoration: none;
+}
+.kk-ratings .hover-panel a.hovered-star {
+	background-image: url(../images/over.png);
+	background-repeat: no-repeat;
+}
+.kk-ratings .casting-desc {
+	width: 120px;
+	line-height: 16px;
+	text-align:center;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	color:#AAA;
+}
+.kk-ratings .casting-thanks {
+	width: 120px;
+	line-height: 16px;
+	text-align:center;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	color:#248E62;
+}
+.kk-ratings .casting-error {
+	width: 120px;
+	line-height: 16px;
+	text-align:center;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 10px;
+	color:#F66;
+}
+.kk-ratings .casting-thanks {
+	display: none;
+}
+.kk-ratings .casting-error {
+	display: none;
+}
+.kk-ratings span {
+	display: none;
+}
