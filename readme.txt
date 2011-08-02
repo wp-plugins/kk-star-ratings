@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.2.1
 
-Stable tag: 1.2
+Stable tag: 1.3
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -26,6 +26,8 @@ kk Star Ratings allows blog visitors to involve and interact more effectively wi
 As the name states, this plugin displays a 5 star ratings in your posts/pages.
 
 It has quite cool hover fade effects and animations.
+
+Version 1.3+ also inludes a widget so you can show top rated posts in your sidebar as well.
 
 A settings page is also available where you can adjust the settings. You can:
 
@@ -79,6 +81,9 @@ First of all make sure you have selected where to display the ratings in the set
 2. The Output
 
 
+3. The Widget
+
+
 == Changelog == 
 
 = 1.1 =
@@ -86,6 +91,9 @@ First of all make sure you have selected where to display the ratings in the set
 
 = 1.2 =
 * Added possibility to show ratings of any post anywhere in your theme files.
+
+= 1.3 =
+* Added a widget. Now you can show top rated posts in your sidebar :).
 
 
 == Upgrade Notice ==

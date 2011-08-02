@@ -81,15 +81,16 @@ jQuery(document).ready( function($){
 					}
 					$('.stars-turned-on', obj).fadeIn(1000);
 			  });
-
+            
 			var id = $("span:eq(0)",obj).html();
+			
 			$(obj).addClass('open');
 			$.ajax({
 				   type: "POST",
 				   url: settings.path+"ajax/kk-ratings-ajax.php",
 				   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=get&id="+id,
 				   success: function(msg){
-				       
+					   
 					   msg = msg.replace(/^\s+|\s+$/g,"");
 					   var response = msg.split('|||');
 					   if(response[0]=='SUCCESS')
@@ -107,20 +108,23 @@ jQuery(document).ready( function($){
 							   }, 'slow', function(){
 								   $('.stars-turned-on',obj).animate({
 									   'width' : per+'%'
-								   }, 'slow', function(){
-								   
-								   });
+								   }, 'slow');
 							   });
 						   }
 						   
 
 						   $('.casting-desc',obj).text(legend);
-
+                           
 						   if(open=='no')
 						   {
 							   $(obj).removeClass('open');
 							   $('.stars-turned-on',obj).addClass('stars-turned-strict');
-						   } 
+						   }
+						   else
+						   {
+							   $(obj).addClass('open');
+							   $('.stars-turned-on',obj).removeClass('stars-turned-strict');
+						   }
 					   }
 					   else
 					   {
@@ -140,6 +144,7 @@ jQuery(document).ready( function($){
 						  var starsTT = starsT.split('-');
 						  var stars = parseInt(starsTT[1]);
 						  var id = $("span:eq(0)",obj).text();
+						  
 						  $.ajax({
 							   type: "POST",
 							   url: settings.path+"ajax/kk-ratings-ajax.php",
@@ -166,6 +171,11 @@ jQuery(document).ready( function($){
 										   obj.removeClass('open');
 										   $('.stars-turned-on',obj).addClass('stars-turned-strict');
 									   } 
+									   else
+									   {
+										   obj.addClass('open');
+										   $('.stars-turned-on',obj).removeClass('stars-turned-strict');
+									   }
 								   }
 								   else
 								   {
@@ -190,9 +200,7 @@ jQuery(document).ready( function($){
 											   }, 'slow', function(){
 												   $('.stars-turned-on',obj).animate({
 													   'width' : percentage+'%'
-												   }, 'slow', function(){
-												   
-												   });
+												   }, 'slow');
 											   });
 										   }
 									   });

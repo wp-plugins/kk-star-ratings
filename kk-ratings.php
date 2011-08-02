@@ -3,8 +3,8 @@
 /*
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
-Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. There are some useful options you can set to customize this plugin. You can do all that after installing the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.2
+Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
+Version: 1.3
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -120,6 +120,21 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				$this->options['init_msg'] = 'Be the first to rate it!'; // string
 				$this->update_options();
 			endif;
+			
+			// add meta_key for avg. Required for backward compatibility
+			global $wpdb;
+			$table = $wpdb->prefix . 'postmeta';
+			$posts = $wpdb->get_results("SELECT a.ID, b.meta_key, b.meta_value FROM " . $wpdb->posts . " a, $table b WHERE a.ID=b.post_id AND (b.meta_key='_kk_ratings_ratings' OR b.meta_key='_kk_ratings_casts') ORDER BY a.ID ASC");
+			$wrap = array();
+			foreach ($posts as $post)
+			{
+				$wrap[$post->ID]['id'] = $post->ID;
+				$wrap[$post->ID][$post->meta_key] = $post->meta_value;
+			}
+			foreach($wrap as $p)
+			{
+				update_post_meta($p['id'], '_kk_ratings_avg', round($p['_kk_ratings_ratings']/$p['_kk_ratings_casts'],1));
+			}
 		}
 		public function admin_init()
 		{
@@ -295,6 +310,8 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 		global $kkratings;
 		return $kkratings->kk_star_rating($pid);
 	}
+	
+	require_once('widget.php');
 	
 endif;
 
