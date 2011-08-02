@@ -50,7 +50,11 @@
 				 <p>
 				    <strong>NOTE</strong> : For manual, please use shortcode <span style="color:#06F;">[kkratings]</span>
 					<br />in any post or page you need the ratings.
-					
+                    <br /><br />
+                    For use in theme files:
+                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings')) : echo kk_star_ratings($pid); endif; ?&gt;</span>
+                    <br />Where $pid is the post of the id
+					<br />
 				 </p>
 			 </td>
 		   </tr>
