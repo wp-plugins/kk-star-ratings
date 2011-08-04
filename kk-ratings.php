@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.3
+Version: 1.3.1
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -176,6 +176,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 							delete_post_meta($val, '_kk_ratings_ratings');
 							delete_post_meta($val, '_kk_ratings_casts');
 							delete_post_meta($val, '_kk_ratings_ips');
+							delete_post_meta($val, '_kk_ratings_avg');
 						}
 						echo '<div class="updated settings-error" style="padding:5px;">Ratings for id(s) '.$postids.' have been FLUSHED Successfully</div>';
 					}
@@ -187,6 +188,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 							delete_post_meta($postinfo->ID, '_kk_ratings_ratings');
 							delete_post_meta($postinfo->ID, '_kk_ratings_casts');
 							delete_post_meta($postinfo->ID, '_kk_ratings_ips');
+							delete_post_meta($postinfo->ID, '_kk_ratings_avg');
 						}
 						echo '<div class="updated settings-error" style="padding:5px;">All ratings have been FLUSHED Successfully</div>';
 					}
