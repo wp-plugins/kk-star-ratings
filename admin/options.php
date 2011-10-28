@@ -12,12 +12,22 @@
 	<form action="options.php" method="post" id=<?php echo $this->plugin_id; ?>"_options_form" name=<?php echo $this->plugin_id; ?>"_options_form">
 	<?php settings_fields($this->plugin_id.'_options'); ?>
     <h2>kk Star Ratings &raquo; Settings</h2>
-    <table class="widefat" style="width:600px;">
+    <p>Donations to this plugin will always be appreciated. It is a way of saying thanks!</p>
+    <p>
+	    
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="hosted_button_id" value="EHPTKTC2TT4QC">
+		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		</form>
+	</p>
+    <table width="697" class="widefat" style="width:600px;">
 		<thead>
 		   <tr>
-		     <th>#</th>
-		     <th>Label</th>
-			 <th>Value</th>
+		     <th width="8">#</th>
+		     <th width="69">Label</th>
+			 <th width="604">Value</th>
 		   </tr>
 		</thead>
 		<tfoot>
@@ -51,10 +61,25 @@
 				    <strong>NOTE</strong> : For manual, please use shortcode <span style="color:#06F;">[kkratings]</span>
 					<br />in any post or page you need the ratings.
                     <br /><br />
-                    For use in theme files:
+                    <strong>For use in theme files:</strong>
                     <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings')) : echo kk_star_ratings($pid); endif; ?&gt;</span>
                     <br />Where $pid is the post of the id
-					<br />
+					<br /><br />
+                    <strong>Get top rated posts as array of objects:</strong>
+                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings_get')) : $top_rated_posts  = kk_star_ratings_get($total); endif; ?&gt;</span>
+                    <br />Where $total is the limit (int)
+					<br />$top_rated_posts will contain an array of objects, each containing an ID and ratings.
+                    <br />
+                    <strong>Example Usage:</strong>
+                    <pre>
+                     foreach($top_rated_posts as $post)
+                     {
+                         // you get $post->ID and $post->ratings
+                         // Do anything with it like get_post($post->ID)
+                         // ...
+                     }
+                    </pre>
+                    <br />
 				 </p>
 			 </td>
 		   </tr>

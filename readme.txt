@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.2.1
 
-Stable tag: 1.3.1
+Stable tag: 1.4
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -97,6 +97,9 @@ First of all make sure you have selected where to display the ratings in the set
 
 = 1.3.1 =
 * Fixed: flushing/removing of ratings for widget included. Thanks to feedback from glyn.
+
+= 1.4 =
+* Added: ability to retrieve top rated posts in the template/theme.
 
 
 == Upgrade Notice ==

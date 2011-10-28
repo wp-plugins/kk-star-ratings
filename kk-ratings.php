@@ -4,14 +4,14 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.3.1
+Version: 1.4
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
 */
 
 // Make sure class does not already exist (Playing safe).
-if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_star_ratings')) :
+if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_star_ratings') && !function_exists('kk_star_ratings_get')) :
 
     // Declare and define the plugin class.
 	class kk_Ratings
@@ -294,6 +294,13 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				return $this->markup($pid);
 			return '';
 		}
+		public function kk_star_ratings_get($total=5)
+		{
+			global $wpdb;
+			$table = $wpdb->prefix . 'postmeta';
+			$rated_posts = $wpdb->get_results("SELECT a.ID, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b WHERE a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+		    return $rated_posts;
+		}
 	}
 	
 	// Instantiate the plugin
@@ -311,6 +318,11 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 	{
 		global $kkratings;
 		return $kkratings->kk_star_rating($pid);
+	}
+	function kk_star_ratings_get($lim=5)
+	{
+		global $kkratings;
+		return $kkratings->kk_star_ratings_get($lim);
 	}
 	
 	require_once('widget.php');
