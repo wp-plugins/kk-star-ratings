@@ -12,16 +12,6 @@
 	<form action="options.php" method="post" id=<?php echo $this->plugin_id; ?>"_options_form" name=<?php echo $this->plugin_id; ?>"_options_form">
 	<?php settings_fields($this->plugin_id.'_options'); ?>
     <h2>kk Star Ratings &raquo; Settings</h2>
-    <p>Donations to this plugin will always be appreciated. It is a way of saying thanks!</p>
-    <p>
-	    
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<input type="hidden" name="hosted_button_id" value="EHPTKTC2TT4QC">
-		<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-		</form>
-	</p>
     <table width="697" class="widefat" style="width:600px;">
 		<thead>
 		   <tr>
