@@ -101,5 +101,8 @@ First of all make sure you have selected where to display the ratings in the set
 = 1.4 =
 * Added: ability to retrieve top rated posts in the template/theme.
 
+= 1.4.1 =
+* Fixed: Settings are now able to be saved. Was not being saved in v1.4.
+
 
 == Upgrade Notice ==
