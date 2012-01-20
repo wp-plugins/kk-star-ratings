@@ -89,15 +89,13 @@ jQuery(document).ready( function($){
 				   type: "POST",
 				   url: settings.path+"ajax/kk-ratings-ajax.php",
 				   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=get&id="+id,
+				   dataType: "xml",
 				   success: function(msg){
-					   
-					   msg = msg.replace(/^\s+|\s+$/g,"");
-					   var response = msg.split('|||');
-					   if(response[0]=='SUCCESS')
+					   if($(msg).find('success').text())
 					   {
-						   var per = response[1];
-						   var legend = response[2];
-						   var open = response[3];
+						   var per = $(msg).find('percentage').text();
+						   var legend = $(msg).find('legend').text();
+						   var open = $(msg).find('open').text();
 						   
 						   if($.browser.opera)
 						      $('.stars-turned-on',obj).css({'width':per+'%'});
@@ -133,6 +131,7 @@ jQuery(document).ready( function($){
 				   }
 			  });
 
+                var busy = false;
 				$(".hover-panel > a", obj).click( function() {
 					  var obj = $(this).parent().parent();
 					  var percentage = 0;
@@ -144,23 +143,24 @@ jQuery(document).ready( function($){
 						  var starsTT = starsT.split('-');
 						  var stars = parseInt(starsTT[1]);
 						  var id = $("span:eq(0)",obj).text();
-						  
+						  if(!busy)
+						  {
+					      busy = true;
 						  $.ajax({
 							   type: "POST",
 							   url: settings.path+"ajax/kk-ratings-ajax.php",
 							   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=put&id="+id+'&stars='+stars,
+							   dataType: "xml",
 							   beforeSend: function(){
 									obj.fadeTo('slow',0.3);
 									$('.casting-desc',obj).fadeOut('fast');  
 							   },
 							   success: function(msg){
-								   msg = msg.replace(/^\s+|\s+$/g,"");
-								   var response = msg.split('|||');
-								   if(response[0]=='SUCCESS')
+								   if($(msg).find('success').text())
 								   {
-									   var per = response[1];
-									   var legend = response[2];
-									   var open = response[3];
+									   var per = $(msg).find('percentage').text();
+									   var legend = $(msg).find('legend').text();
+									   var open = $(msg).find('open').text();
 									   
 									   percentage = per;
 									   
@@ -216,6 +216,7 @@ jQuery(document).ready( function($){
 								   }								   
 							   }
 						  });
+						  }
 					  }
 					  return false;
 				});

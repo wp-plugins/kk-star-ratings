@@ -28,6 +28,11 @@
 		   </tr>
 		</tfoot>
 		<tbody>
+           <tr>
+			 <td></td>
+			 <td><a href="http://wakeusup.com/2011/05/kk-star-ratings/" target="_blank" title="View Changelog">Changelog</a></td>
+			 <td></td>
+		   </tr>
 		   <tr>
 			 <td>1</td>
 			 <td><label for="<?php echo $this->plugin_id; ?>[enable]">Enable</label></td>
@@ -56,17 +61,19 @@
                     <br />Where $pid is the post of the id
 					<br /><br />
                     <strong>Get top rated posts as array of objects:</strong>
-                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings_get')) : $top_rated_posts  = kk_star_ratings_get($total); endif; ?&gt;</span>
-                    <br />Where $total is the limit (int)
-					<br />$top_rated_posts will contain an array of objects, each containing an ID and ratings.
+                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings_get')) : $top_rated_posts  = kk_star_ratings_get($total,$cat_id); endif; ?&gt;</span>
+                    <br />Where $total is the limit (int) and $cat_id is the id of the category which is optional
+					<br />$top_rated_posts will contain an array of objects, each containing an ID, title and ratings.
                     <br />
                     <strong>Example Usage:</strong>
                     <pre>
                      foreach($top_rated_posts as $post)
                      {
-                         // you get $post->ID and $post->ratings
+                         // You get $post->ID, $post->ratings and $post->post_title
                          // Do anything with it like get_post($post->ID)
                          // ...
+                         // The following will display the Post ID, Title and Ratings for each.
+                         echo "Post ID: ".$post->ID." | Title: ".$post->post_title." | Ratings: ".$post->ratings.'&lt;br /&gt;';
                      }
                     </pre>
                     <br />
