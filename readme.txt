@@ -9,9 +9,9 @@ Tags: star ratings, votings, rate posts, ajax ratings
 
 Requires at least: 3.0
 
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 
-Stable tag: 1.4.1
+Stable tag: 1.5
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -28,6 +28,10 @@ As the name states, this plugin displays a 5 star ratings in your posts/pages.
 It has quite cool hover fade effects and animations.
 
 Version 1.3+ also inludes a widget so you can show top rated posts in your sidebar as well.
+
+Now you can also filter the top rated posts widget by category
+
+Custom template tag/function available
 
 A settings page is also available where you can adjust the settings. You can:
 
@@ -63,11 +67,11 @@ A settings page is also available where you can adjust the settings. You can:
 
 = 
 
-I have installed the plugin, but the ratings are not showing up anywhere 
+Whenever I click on a star, it states "An error occured".
 
 =
 
-First of all make sure you have selected where to display the ratings in the settings page. NOTE: unfortunately, some themes are poorly developed, so keep that in mind.
+This may have occured to some users with previous versions of the plugin. It has been fixed in version 1.5.
 
 
 
@@ -103,6 +107,11 @@ First of all make sure you have selected where to display the ratings in the set
 
 = 1.4.1 =
 * Fixed: Settings are now able to be saved. Was not being saved in v1.4.
+
+= 1.5 =
+* Fixed: Some users complained about a fault: "An error occured" being displayed when someone rates a post. This was due to the charset of the returned response via ajax (Mentioned by jamk). Has been fixed as the ajax response is now retrieved as an xml dom instead of plain text.
+* Fixed: Regardless of unique voting set or not, a user could click on a star multiple times simultaneously and the post would be rated that much time. Has been fixed.
+* Added: Filter by category in the widget as well as the custom template tag/function.
 
 
 == Upgrade Notice ==

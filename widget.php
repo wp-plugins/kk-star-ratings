@@ -20,15 +20,14 @@ class kk_Ratings_Widget extends WP_Widget
 		extract( $args, EXTR_SKIP );
 		$title = ( !empty($instance['title']) ) ? $instance['title'] : 'Top Posts';
 		$total = ( !empty($instance['noofposts']) ) ? $instance['noofposts'] : '5';
+		$category = ( $instance['category'] ) ? $instance['category'] : false;
 		$sr = ($instance['showrating']) ? true : false;
 
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
 		
 		// OUTPUT starts
-	    global $wpdb;
-		$table = $wpdb->prefix . 'postmeta';
-		$posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b WHERE a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+		$posts = kk_star_ratings_get($total, $category);
 		echo '<ul>';
 		foreach ($posts as $post)
 		{
@@ -68,6 +67,22 @@ class kk_Ratings_Widget extends WP_Widget
             <select id="<?php echo $this->get_field_id('showrating'); ?>" name="<?php echo $this->get_field_name('showrating'); ?>">
                 <option value="0" <?php if(!esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>No</option>
                 <option value="1" <?php if(esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>Yes</option>
+            </select>
+            </label>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('category'); ?>">Filter by Category:
+            <select id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>">
+            <option value="0">Select</option>
+            <?php
+			    foreach(get_categories(array()) as $category)
+				{
+					echo '<option value="'.$category->term_id.'"';
+					if(esc_attr($instance['category'])==$category->term_id)
+					echo ' selected="selected"';
+					echo '>'.$category->name.'</option>';
+				}
+			?>
             </select>
             </label>
         </p>

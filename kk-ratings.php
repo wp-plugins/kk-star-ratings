@@ -294,12 +294,21 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				return $this->markup($pid);
 			return '';
 		}
-		public function kk_star_ratings_get($total=5)
+		public function kk_star_ratings_get($total=5, $cat=false)
 		{
 			global $wpdb;
 			$table = $wpdb->prefix . 'postmeta';
-			$rated_posts = $wpdb->get_results("SELECT a.ID, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b WHERE a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
-		    return $rated_posts;
+			if(!$cat)
+			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b WHERE a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+			else
+			{
+			    $table2 = $wpdb->prefix . 'term_taxonomy';
+			    $table3 = $wpdb->prefix . 'term_relationships';
+			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b, $table2 c, $table3 d WHERE c.term_taxonomy_id=d.term_taxonomy_id AND c.term_id=$cat AND d.object_id=a.ID AND a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+			}
+			
+			return $rated_posts;
+
 		}
 	}
 	
@@ -319,10 +328,10 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 		global $kkratings;
 		return $kkratings->kk_star_rating($pid);
 	}
-	function kk_star_ratings_get($lim=5)
+	function kk_star_ratings_get($lim=5, $cat=false)
 	{
 		global $kkratings;
-		return $kkratings->kk_star_ratings_get($lim);
+		return $kkratings->kk_star_ratings_get($lim, $cat);
 	}
 	
 	require_once('widget.php');
