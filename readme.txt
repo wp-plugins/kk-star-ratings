@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.3.1
 
-Stable tag: 1.5
+Stable tag: 1.6
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -112,6 +112,9 @@ This may have occured to some users with previous versions of the plugin. It has
 * Fixed: Some users complained about a fault: "An error occured" being displayed when someone rates a post. This was due to the charset of the returned response via ajax (Mentioned by jamk). Has been fixed as the ajax response is now retrieved as an xml dom instead of plain text.
 * Fixed: Regardless of unique voting set or not, a user could click on a star multiple times simultaneously and the post would be rated that much time. Has been fixed.
 * Added: Filter by category in the widget as well as the custom template tag/function.
+
+= 1.6 =
+* Added: Now you can see a column in the admin screen of posts and pages stating the ratings of each.
 
 
 == Upgrade Notice ==

@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.5
+Version: 1.6
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -105,8 +105,8 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 		}
 		public function activate()
 		{
-		    $this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
-			$this->update_options();
+		    //$this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [avg]=average, [per]=percentage
+			//$this->update_options();
 		    if(!count($this->options)) :
 				$this->options['enable'] = 1; // 1, 0
 				$this->options['clear'] = 0; // 1, 0
@@ -118,8 +118,15 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				$this->options['position'] = 'top-left'; // 'top-left', 'top-right', 'bottom-left', 'bottom-right'
 				$this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
 				$this->options['init_msg'] = 'Be the first to rate it!'; // string
+				$this->options['column'] = 1; // 1, 0
 				$this->update_options();
 			endif;
+			
+			if(!isset($this->options['column']))
+			{
+				$this->options['column'] = 1;
+				$this->update_options();
+			}
 			
 			// add meta_key for avg. Required for backward compatibility
 			global $wpdb;
@@ -288,6 +295,26 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 			endif;
 			return $content;
 		}
+		public function add_column($Columns)
+		{
+			if($this->options['column'])
+			    $Columns['kk_star_ratings'] = 'Ratings';
+			return $Columns;
+		}
+		function add_row($Columns, $id)
+		{
+			if($this->options['column']) : 
+			$raw = (get_post_meta($id, '_kk_ratings_ratings', true)?get_post_meta($id, '_kk_ratings_ratings', true):0);
+			$avg = '<strong>'.(get_post_meta($id, '_kk_ratings_avg', true)?get_post_meta($id, '_kk_ratings_avg', true):'0').'/5</strong>';
+			$cast = (get_post_meta($id, '_kk_ratings_casts', true)?get_post_meta($id, '_kk_ratings_casts', true):'0').' votes';
+			$per = ($raw>0?ceil((($raw/$cast)/5)*100):0).'%';
+			$row = $avg . ' (' . $per . ') ' . $cast;
+			switch($Columns)
+			{
+				case 'kk_star_ratings' : echo $row; break;
+			}
+			endif;
+		}
 		public function kk_star_rating($pid=false)
 		{
 		    if($this->options['enable'])
@@ -308,7 +335,6 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 			}
 			
 			return $rated_posts;
-
 		}
 	}
 	
@@ -322,6 +348,12 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 	add_action('init', array($kkratings, 'init'));
 	// add shortcode handler
     add_shortcode('kkratings', array($kkratings, 'do_it_manually'));
+	
+	// ADD COLUMNS TO POST AND PAGE TABLES IN ADMIN (as of 1.6)
+	add_filter( 'manage_posts_columns', array($kkratings, 'add_column') );
+	add_filter( 'manage_pages_columns', array($kkratings, 'add_column') );
+	add_filter( 'manage_posts_custom_column', array($kkratings, 'add_row'), 10, 2 );
+	add_filter( 'manage_pages_custom_column', array($kkratings, 'add_row'), 10, 2 );
 	
 	function kk_star_ratings($pid=false)
 	{
