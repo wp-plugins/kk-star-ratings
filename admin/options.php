@@ -11,7 +11,9 @@
     <?php screen_icon(); ?>
 	<form action="options.php" method="post" id=<?php echo $this->plugin_id; ?>"_options_form" name=<?php echo $this->plugin_id; ?>"_options_form">
 	<?php settings_fields($this->plugin_id.'_options'); ?>
-    <h2>kk Star Ratings &raquo; Settings</h2>
+    <h2>kk Star Ratings &raquo; Settings 
+	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like send="false" layout="button_count" width="450" show_faces="true" href="http://wakeusup.com"></fb:like>
+    </h2>
     <table width="697" class="widefat" style="width:600px;">
 		<thead>
 		   <tr>
@@ -28,6 +30,11 @@
 		   </tr>
 		</tfoot>
 		<tbody>
+           <tr>
+			 <td></td>
+			 <td><a href="http://wakeusup.com/2011/05/kk-star-ratings/" target="_blank" title="View Changelog">Changelog</a></td>
+			 <td></td>
+		   </tr>
 		   <tr>
 			 <td>1</td>
 			 <td><label for="<?php echo $this->plugin_id; ?>[enable]">Enable</label></td>
@@ -56,17 +63,19 @@
                     <br />Where $pid is the post of the id
 					<br /><br />
                     <strong>Get top rated posts as array of objects:</strong>
-                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings_get')) : $top_rated_posts  = kk_star_ratings_get($total); endif; ?&gt;</span>
-                    <br />Where $total is the limit (int)
-					<br />$top_rated_posts will contain an array of objects, each containing an ID and ratings.
+                    <br /> <span style="color:#F60;">&lt;?php if(function_exists('kk_star_ratings_get')) : $top_rated_posts  = kk_star_ratings_get($total,$cat_id); endif; ?&gt;</span>
+                    <br />Where $total is the limit (int) and $cat_id is the id of the category which is optional
+					<br />$top_rated_posts will contain an array of objects, each containing an ID, title and ratings.
                     <br />
                     <strong>Example Usage:</strong>
                     <pre>
                      foreach($top_rated_posts as $post)
                      {
-                         // you get $post->ID and $post->ratings
+                         // You get $post->ID, $post->ratings and $post->post_title
                          // Do anything with it like get_post($post->ID)
                          // ...
+                         // The following will display the Post ID, Title and Ratings for each.
+                         echo "Post ID: ".$post->ID." | Title: ".$post->post_title." | Ratings: ".$post->ratings.'&lt;br /&gt;';
                      }
                     </pre>
                     <br />
@@ -117,6 +126,11 @@
 			 <td>
 			     <input type="checkbox" name="<?php echo $this->plugin_id; ?>[clear]" value="1" <?php echo $this->options['clear'] ? "checked='checked'" : ""; ?> />
 		     </td>
+		   </tr>
+           <tr>
+			 <td>8</td>
+			 <td><label for="<?php echo $this->plugin_id; ?>[column]">Show rating column in the posts/pages admin screen</label></td>
+			 <td><input type="checkbox" name="<?php echo $this->plugin_id; ?>[column]" value="1" <?php echo $this->options['column'] ? "checked='checked'" : ""; ?> /></td>
 		   </tr>
 		</tbody>
 	</table>
