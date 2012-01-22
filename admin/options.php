@@ -11,7 +11,9 @@
     <?php screen_icon(); ?>
 	<form action="options.php" method="post" id=<?php echo $this->plugin_id; ?>"_options_form" name=<?php echo $this->plugin_id; ?>"_options_form">
 	<?php settings_fields($this->plugin_id.'_options'); ?>
-    <h2>kk Star Ratings &raquo; Settings</h2>
+    <h2>kk Star Ratings &raquo; Settings 
+	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like send="false" layout="button_count" width="450" show_faces="true" href="http://wakeusup.com"></fb:like>
+    </h2>
     <table width="697" class="widefat" style="width:600px;">
 		<thead>
 		   <tr>
@@ -124,6 +126,11 @@
 			 <td>
 			     <input type="checkbox" name="<?php echo $this->plugin_id; ?>[clear]" value="1" <?php echo $this->options['clear'] ? "checked='checked'" : ""; ?> />
 		     </td>
+		   </tr>
+           <tr>
+			 <td>8</td>
+			 <td><label for="<?php echo $this->plugin_id; ?>[column]">Show rating column in the posts/pages admin screen</label></td>
+			 <td><input type="checkbox" name="<?php echo $this->plugin_id; ?>[column]" value="1" <?php echo $this->options['column'] ? "checked='checked'" : ""; ?> /></td>
 		   </tr>
 		</tbody>
 	</table>
