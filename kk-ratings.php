@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.6
+Version: 1.7
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -116,7 +116,7 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				$this->options['show_in_pages'] = 0; // 1, 0
 				$this->options['unique'] = 0; // 1, 0
 				$this->options['position'] = 'top-left'; // 'top-left', 'top-right', 'bottom-left', 'bottom-right'
-				$this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [rating]=average, [per]=percentage
+				$this->options['legend'] = '[avg]([per]) [total] votes'; // [total]=total ratings, [avg]=average, [per]=percentage
 				$this->options['init_msg'] = 'Be the first to rate it!'; // string
 				$this->options['column'] = 1; // 1, 0
 				$this->update_options();
@@ -326,12 +326,12 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 			global $wpdb;
 			$table = $wpdb->prefix . 'postmeta';
 			if(!$cat)
-			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b WHERE a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b, $table c WHERE a.post_status='publish' AND a.ID=b.post_id AND a.ID=c.post_id AND b.meta_key='_kk_ratings_avg' AND c.meta_key='_kk_ratings_casts' ORDER BY b.meta_value DESC, c.meta_value DESC LIMIT $total");
 			else
 			{
 			    $table2 = $wpdb->prefix . 'term_taxonomy';
 			    $table3 = $wpdb->prefix . 'term_relationships';
-			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b, $table2 c, $table3 d WHERE c.term_taxonomy_id=d.term_taxonomy_id AND c.term_id=$cat AND d.object_id=a.ID AND a.post_status='publish' AND a.ID=b.post_id AND b.meta_key='_kk_ratings_avg' ORDER BY b.meta_value DESC LIMIT $total");
+			    $rated_posts = $wpdb->get_results("SELECT a.ID, a.post_title, b.meta_value AS 'ratings' FROM " . $wpdb->posts . " a, $table b, $table2 c, $table3 d, $table e WHERE c.term_taxonomy_id=d.term_taxonomy_id AND c.term_id=$cat AND d.object_id=a.ID AND a.post_status='publish' AND a.ID=b.post_id AND a.ID=e.post_id AND b.meta_key='_kk_ratings_avg' AND e.meta_key='_kk_ratings_casts' ORDER BY b.meta_value DESC, e.meta_value DESC LIMIT $total");
 			}
 			
 			return $rated_posts;
