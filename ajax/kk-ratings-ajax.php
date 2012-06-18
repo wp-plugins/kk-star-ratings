@@ -1,8 +1,8 @@
 <?php
-
+session_start();
 header("Content-type: text/xml");
 
-$path_to_root = urldecode($_POST['root']);
+$path_to_root = urldecode($_SESSION['kksr_root']); // v 1.7.1
 require_once($path_to_root."wp-config.php");
 
 // check security

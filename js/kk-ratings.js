@@ -5,7 +5,6 @@
 jQuery(document).ready( function($){
 	$('.kk-ratings').kkratings({
 		'path' : kk_ratings_settings.path,
-		'root' : kk_ratings_settings.root,
 		'nonce' : kk_ratings_settings.nonce,
 		'position' : kk_ratings_settings.pos
 	});
@@ -88,7 +87,7 @@ jQuery(document).ready( function($){
 			$.ajax({
 				   type: "POST",
 				   url: settings.path+"ajax/kk-ratings-ajax.php",
-				   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=get&id="+id,
+				   data: '_ajax_nonce='+settings.nonce+"&op=get&id="+id,
 				   dataType: "xml",
 				   success: function(msg){
 					   if($(msg).find('success').text())
@@ -149,7 +148,7 @@ jQuery(document).ready( function($){
 						  $.ajax({
 							   type: "POST",
 							   url: settings.path+"ajax/kk-ratings-ajax.php",
-							   data: '_ajax_nonce='+settings.nonce+'&root='+settings.root+"&op=put&id="+id+'&stars='+stars,
+							   data: '_ajax_nonce='+settings.nonce+"&op=put&id="+id+'&stars='+stars,
 							   dataType: "xml",
 							   beforeSend: function(){
 									obj.fadeTo('slow',0.3);
