@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: A clean, animated and sweat ratings feature for your blog <strong>With kk Star Ratings, you can allow your blog posts to be rated by your blog visitors</strong>. <strong>It also includes a widget</strong> which you can add to your sidebar to show the top rated post. There are some useful options you can set to customize this plugin. You can do all that after installing and activating the plugin and then visiting the <a href="options-general.php?page=kk-ratings_options">Plugin Settings</a>.
-Version: 1.7.1
+Version: 1.7.2
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -45,18 +45,6 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 			// set manual mode to false
 			$this->manual_mode = false;
 		}
-		/** function/method [1.7.1]
-		* Usage: start the session if not started.
-		* Arg(0): null
-		* Return: void
-		*/
-		public function session()
-		{
-			if (!session_id())
-			{
-				session_start();
-			}
-		}
 		/** function/method
 		* Usage: return file path relative to current plugin directory 
 		* Arg(1): string
@@ -80,10 +68,9 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 				$params['nonce'] = $nonce; //for security
 				$params['path'] = $this->file_path('').'/';
 				$params['pos'] = $this->options['position'];
-				$_SESSION['kksr_root'] = urlencode(ABSPATH); // v 1.7.1
 
 			    wp_enqueue_script('jquery');
-				wp_enqueue_script($this->plugin_id.'_js', $this->file_path($this->js_file), array('jquery') );
+				wp_enqueue_script($this->plugin_id.'_js', $this->file_path($this->js_file), array('jquery'), '1.7.2' );
 				wp_localize_script($this->plugin_id.'_js', str_replace('-', '_', $this->plugin_id).'_settings', $params);
 			}
 		}
@@ -351,7 +338,6 @@ if(!class_exists('kk_Ratings') && !isset($kkratings) && !function_exists('kk_sta
 	
 	// Instantiate the plugin
 	$kkratings = new kk_Ratings('kk-ratings');
-	if(!is_admin()) { add_action('init', array($kkratings, 'session')); }
 	register_activation_hook(__FILE__, array($kkratings, 'activate'));
 	add_action('wp_head', array($kkratings, 'css'));
 	add_action('wp_print_scripts', array($kkratings, 'js')); 

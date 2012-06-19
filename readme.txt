@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.3.2
 
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -121,5 +121,8 @@ This may have occured to some users with previous versions of the plugin. It has
 
 = 1.7.1 =
 * Security Fix: Fixed a security issue in the ajax request for the file inclusion risk. This is a recommended update for all users.
+
+= 1.7.2 =
+* Fix: This is a fix for the previous version (1.7.1). The plugin was not tagged with the latest files. Now it is fixed.
 
 == Upgrade Notice ==
