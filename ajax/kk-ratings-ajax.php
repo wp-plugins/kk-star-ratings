@@ -1,6 +1,8 @@
 <?php
 
-$path_to_root = urldecode($_POST['root']);
+header("Content-type: text/xml");
+
+$path_to_root = '../../../../';
 require_once($path_to_root."wp-config.php");
 
 // check security
@@ -53,11 +55,22 @@ if(isset($_POST['id']) && ((!strcmp($_POST['op'], 'get') && $Ratings['ratings'])
 	$Ratings['legend'] = str_replace('[avg]',$Ratings['avg'], $Ratings['legend']);
 	$Ratings['legend'] = str_replace('[per]',$Ratings['per'].'%', $Ratings['legend']);
 	
-	echo "SUCCESS|||".$Ratings['per'].'|||'.$Ratings['legend'].'|||'.$Ratings['open'];
+	echo "<?xml version='1.0' encoding='ISO-8859-1'?>";
+	echo "<response>";
+	echo "<success>1</success>";
+	echo "<percentage>".$Ratings['per']."</percentage>";
+	echo "<legend>".$Ratings['legend']."</legend>";
+	echo "<open>".$Ratings['open']."</open>";
+	echo "</response>";
+	exit;
 }
 else
 {
-    echo "FAIL|||";
+	echo "<?xml version='1.0' encoding='ISO-8859-1'?>";
+	echo "<response>";
+	echo "<error>Invalid error occurred</error>";
+	echo "</response>";
+	exit;
 }
 
 ?>
