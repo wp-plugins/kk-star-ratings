@@ -1,18 +1,18 @@
 <?php
 
-// Make sure class does not already exist (Playing safe).
-if(!class_exists('kk_Ratings_Widget') && !function_exists('kk_ratings_widget_init')) :
+// Make sure class does not already exist (Playing safe) and that the get function exists
+if(!class_exists('BhittaniPlugin_kkStarRatings_Widget') && function_exists('kk_star_ratings_get')) :
 
-class kk_Ratings_Widget extends WP_Widget
+class BhittaniPlugin_kkStarRatings_Widget extends WP_Widget
 {
 	// Runs when OBJECT DECLARED (Instanciated)
-	public function kk_Ratings_Widget()
+	public function BhittaniPlugin_kkStarRatings_Widget()
 	{
 		$widget_options = array(
 		'classname' => 'kk-star-ratings-widget',
 		'description' => 'Show top rated posts'
 		);
-		parent::WP_Widget('kk_Ratings_Widget', 'kk Star Ratings', $widget_options);
+		parent::WP_Widget('BhittaniPlugin_kkStarRatings_Widget', 'kk Star Ratings', $widget_options);
 	}
 	// Outputs USER INTERFACE
 	public function widget($args, $instance)
@@ -65,8 +65,8 @@ class kk_Ratings_Widget extends WP_Widget
         <p>
             <label for="<?php echo $this->get_field_id('showrating'); ?>">Show Average?:
             <select id="<?php echo $this->get_field_id('showrating'); ?>" name="<?php echo $this->get_field_name('showrating'); ?>">
-                <option value="0" <?php if(!esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>No</option>
-                <option value="1" <?php if(esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>Yes</option>
+                <option value="0" <?php if(isset($instance['showrating']) && !esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>No</option>
+                <option value="1" <?php if(isset($instance['showrating']) && esc_attr($instance['showrating'])){echo "selected='selected'";} ?>>Yes</option>
             </select>
             </label>
         </p>
@@ -78,7 +78,7 @@ class kk_Ratings_Widget extends WP_Widget
 			    foreach(get_categories(array()) as $category)
 				{
 					echo '<option value="'.$category->term_id.'"';
-					if(esc_attr($instance['category'])==$category->term_id)
+					if(isset($instance['category']) && esc_attr($instance['category'])==$category->term_id)
 					echo ' selected="selected"';
 					echo '>'.$category->name.'</option>';
 				}
@@ -90,12 +90,15 @@ class kk_Ratings_Widget extends WP_Widget
 	}
 }
 
-function kk_ratings_widget_init()
+if(!function_exists('kk_star_ratings_widget_init'))
 {
-	register_widget('kk_Ratings_Widget');
+	function kk_star_ratings_widget_init()
+	{
+		register_widget('BhittaniPlugin_kkStarRatings_Widget');
+	}
+	add_action('widgets_init', 'kk_star_ratings_widget_init');
 }
-add_action('widgets_init', 'kk_ratings_widget_init');
-
 
 endif;
+
 ?>
