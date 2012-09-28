@@ -443,6 +443,30 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			</div>
 			<!-- kk-star-ratings -->
 			';
+			if(is_single())
+			{
+				$votes = get_post_meta($id, '_kksr_casts', true);
+				if($votes)
+				{
+					$title = get_the_title();
+					$avg = get_post_meta($id, '_kksr_avg', true);
+					$avg = $avg*($total_stars/5);
+					$best = $total_stars;
+					$markup.= '<span style="display:none;">
+					<div xmlns:v="http://rdf.data-vocabulary.org/#" typeof="v:Review-aggregate">
+					   <span property="v:itemreviewed">'.$title.'</span>
+					   <span rel="v:rating">
+					      <span typeof="v:Rating">
+					         <span property="v:average">'.$avg.'</span>
+					         out of 
+					         <span property="v:best">'.$best.'</span>
+					      </span>
+					   </span>
+					   based on 
+					   <span property="v:votes">'.$votes.'</span> ratings. 
+					</div></span>';
+				}
+			}
 			$markup .= parent::get_options('kksr_clear') ? '<br clear="both" />' : '';
 			return $markup;
 		}
