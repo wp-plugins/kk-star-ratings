@@ -29,6 +29,8 @@ This plugin displays a user defined amount of star ratings in your posts/pages.
 
 It has cool mouse over effects and animations such as fueling of stars.
 
+Supports Google Rich Snippets. Now the ratings will be indexed in google search :)
+
 Inludes a widget so you can show top rated posts in your sidebar as well. Can also be filtered by category.
 
 Custom template tag/function available
@@ -123,6 +125,7 @@ Version 2.0 has been re-coded from the ground up preserving backwards compatibil
 * Update: Seperate settings tab.
 * Update: Visual flushing of ratings. No need to remember post ids.
 * Update: [s] added as a variable for use in the legend (description). Will display the s only if there are 0 or more than 1 ratings.
+* Added: kk Star Ratings now supports Google Rich Snippets. So the ratings will now be indexed in google search.
 * Added: Visual shortcode button. No need to type in a shortcode manually in your posts/pages when in manual mode.
 * Added: User specific amount of stars. Forget the fixed 5 stars.
 * Added: Choose your own images instead of the default ones.
