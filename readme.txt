@@ -5,13 +5,13 @@ Contributors: bhittani
 
 Donate link: http://wakeusup.com/2011/05/kk-star-ratings/
 
-Tags: star ratings, votings, rate posts, ajax ratings, infinite stars, unlimited stars
+Tags: star ratings, votings, rate posts, ajax ratings, infinite stars, unlimited stars, google rich snippets
 
 Requires at least: 3.0
 
 Tested up to: 3.4.2
 
-Stable tag: 2.0
+Stable tag: 2.1
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -40,6 +40,8 @@ Enhanced settings page where you can adjust quite anything you may need to. You 
 1. Select where to show the ratings. It can be on homepage, archives, posts, pages or manually.
 
 1. A visual button in your editor to easily display the ratings manually in your posts/pages. No more typing a shortcode :)
+
+1. Google rich snippets. Ratings will be shown in google search results :)
 
 1. Ratings column in your admin posts/pages screen so you can view the statistics at comfort.
 
@@ -78,7 +80,15 @@ I have been using an older verion of the plugin. Is it safe for me to update?
 
 =
 
-Version 2.0 has been re-coded from the ground up preserving backwards compatibility. Feel free to upgrade safely.
+Version 2.0+ has been re-coded from the ground up preserving backwards compatibility. Feel free to upgrade safely.
+
+= 
+
+I need some help or have some issues?
+
+=
+
+Visit the help tab in the settings to find out what you can do.
 
 
 
@@ -117,6 +127,13 @@ Version 2.0 has been re-coded from the ground up preserving backwards compatibil
 
 
 == Changelog ==
+
+= 2.1 =
+* Fix: Google rich snippets is now stable and safe to use.
+* Fix: Grammers in admin settings.
+* Update: Control whether to allow users to rate in archives or not.
+* Update: Reordered directory tree structure.
+* Added: Useful hooks and filters for advanced developers.
 
 = 2.0 =
 * Update: Re-coded the plugin from the ground up, adding rich settings page and more features.

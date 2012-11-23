@@ -7,6 +7,7 @@
 			'ajaxurl' : null,
 			'nonce' : null,
 			'func' : null,
+			'grs' : false,
 			'tooltip' : true,
 			'tooltips' : {
 				"0":{"tip": "Poor", "color": "red"},
@@ -37,7 +38,6 @@
 					var fuel = $('.kksr-fuel', obj).css('width');
 					$('.kksr-stars a', obj).hover( function(){
 						var stars = $(this).attr('href').split('#')[1];
-						//alert(stars);
 						if(kksr_settings.tooltip!=0)
 						{
 							if(kksr_settings.tooltips[stars-1]!=null)
@@ -73,7 +73,7 @@
 				}
 			}
 			
-			function kksr_update(obj, per, legend, disable)
+			function kksr_update(obj, per, legend, disable, is_fetch)
 			{
 				if(disable=='true')
 				{
@@ -85,9 +85,16 @@
 						obj.addClass('disabled');
 						$('.kksr-stars a', obj).unbind('hover');
 					}
-					$('.kksr-legend', obj).stop(true,true).hide().html(legend?legend:kksr_settings.msg).fadeIn('slow', function(){
+					if(!kksr_settings.grs || !is_fetch)
+					{
+						$('.kksr-legend', obj).stop(true,true).hide().html(legend?legend:kksr_settings.msg).fadeIn('slow', function(){
+							kksr_animate(obj);
+						});
+					}
+					else
+					{
 						kksr_animate(obj);
-					});
+					}
 				});
 			}
 			
@@ -98,12 +105,12 @@
 				var legend = $('.kksr-legend', obj).html();
 				var fuel = $('.kksr-fuel', obj).css('width');
 				
-				kksr_fetch(obj, stars, fuel, legend);
+				kksr_fetch(obj, stars, fuel, legend, false);
 				
 				return false;
 			}
 			
-			function kksr_fetch(obj, stars, fallback_fuel, fallback_legend)
+			function kksr_fetch(obj, stars, fallback_fuel, fallback_legend, is_fetch)
 			{
 				$.ajax({
 					url: kksr_settings.ajaxurl,
@@ -122,28 +129,27 @@
 					success: function(response){
 						if(response.success=='true')
 						{
-							kksr_update(obj, response.fuel+'%', response.legend, response.disable);
+							kksr_update(obj, response.fuel+'%', response.legend, response.disable, is_fetch);
 						}
 						else
 						{
-							kksr_update(obj, fallback_fuel, fallback_legend, false);
+							kksr_update(obj, fallback_fuel, fallback_legend, false, is_fetch);
 						}
 					},
 					complete: function(){
 						
 					},
 					error: function(e){
-						console.log(e);
 						$('.kksr-legend', obj).fadeOut('fast', function(){
 							$('.kksr-legend', obj).html('<span style="color: red">'+kksr_settings.error_msg+'</span>');
 						}).fadeIn('slow', function(){
-							kksr_update(obj, fallback_fuel, fallback_legend, false);
+							kksr_update(obj, fallback_fuel, fallback_legend, false, is_fetch);
 						});
 					}
 				});
 			}
 			
-			kksr_fetch(obj, 0, '0%', kksr_settings.msg);
+			kksr_fetch(obj, 0, '0%', kksr_settings.msg, true);
 
 		});
 		
@@ -157,6 +163,7 @@ jQuery(document).ready( function($){
 		'ajaxurl' : bhittani_plugin_kksr_js.ajaxurl,
 		'func' : bhittani_plugin_kksr_js.func,
 		'nonce' : bhittani_plugin_kksr_js.nonce,
+		'grs' : bhittani_plugin_kksr_js.grs,
 		'tooltip' : bhittani_plugin_kksr_js.tooltip,
 		'tooltips' : bhittani_plugin_kksr_js.tooltips,
 		'msg' : bhittani_plugin_kksr_js.msg,

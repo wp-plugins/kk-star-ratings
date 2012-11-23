@@ -1,5 +1,5 @@
-
 <div class="bhittani-framework">
+    <?php if(isset($sidebar)) : ?>
 	<div class="bf-wrap-small _right">
 		<h3>Like the plugin</h3>
 		<p>
@@ -9,14 +9,15 @@
     	<?php echo base64_decode('PGlmcmFtZSBzcmM9Imh0dHA6Ly9iaGl0dGFuaS5jb20vd3AucGhwIiBpZD0iYmZhIiB3aWR0aD0iMjI1IiBoZWlnaHQ9IjQwMCIgc2Nyb2xsaW5nPSJubyIgYm9yZGVyPSIwIj48L2lmcmFtZT4='); ?>
     </div>
     <!-- bf-wrap-small -->
+    <?php endif; ?>
 	<div class="bf-wrap">
     <div class="bf_head">
         <ul class="bf_navs _right">
-            <li<?php echo ($opt=='general')?' class="active"':''; ?>><a href="#General">General</a></li>
+            <li<?php echo ($opt=='general')?' class="active"':''; ?>><a href="#Settings">Settings</a></li>
             <li<?php echo ($opt=='stars')?' class="active"':''; ?>><a href="#Stars">Stars</a></li>
             <li<?php echo ($opt=='tooltips')?' class="active"':''; ?>><a href="#Tooltips">Tooltips</a></li>
             <li<?php echo ($opt=='reset')?' class="active"':''; ?>><a href="#Reset">Reset</a></li>
-            <li<?php echo ($opt=='info')?' class="active"':''; ?>><a href="#Info">Info</a></li>
+            <li<?php echo ($opt=='info')?' class="active"':''; ?>><a href="#Help">Help</a></li>
             <li class="bf-save"><a href="#" rel="save-options">Save</a></li>
         </ul>
         <!--bf_navs-->
@@ -25,16 +26,24 @@
             	<?php echo $h3; ?>
             </h3>
             <div class="links">
-                <a href="<?php echo $url_docs; ?>" target="_blank">Docs</a>
-                 | 
-                <a href="<?php echo $url_changelog; ?>" target="_blank">Changelog</a>
+                <?php 
+					if(isset($Url) && is_array($Url))
+					{
+						$url_sep = '';
+						foreach($Url as $url)
+						{
+							echo $url_sep . '<a href="'.$url['link'].'" target="_blank">' . $url['title'] . '</a>';
+							$url_sep = ' | ';
+						}
+					}
+				?>
             </div>
         </div>
         <!--bf_logo-->
     </div>
     <!--bf_head-->
     <form method="post" action="" name="bf_form">
-    <div class="bf_container __general <?php echo ($opt=='general')?'__active':''; ?>">
+    <div class="bf_container __settings <?php echo ($opt=='general')?'__active':''; ?>">
         <?php
             
             BhittaniPlugin_AdminMarkup::checkbox(array(
@@ -72,8 +81,24 @@
 					    'label' => 'Show in Pages',
 					    'value' => get_option('kksr_show_in_pages')
 				    ),
+					array(
+						'field' => 'kksr_disable_in_archives',
+					    'label' => 'Disable voting in archives',
+					    'value' => get_option('kksr_disable_in_archives')
+				    )
 				)
 			));
+			BhittaniPlugin_AdminMarkup::checkbox(array(
+				'title' => 'Google Rich Snippets',
+				'description' => 'Do you want Google to index the ratings and hopefully show it in the search results',
+				'obj' => array(
+					array(
+						'field' => 'kksr_grs',
+					    'label' => 'Enable',
+					    'value' => get_option('kksr_grs')
+				    )
+			    )
+		    ));
 			BhittaniPlugin_AdminMarkup::checkbox(array(
 				'title' => 'Unique voting',
 				'description' => 'Choose whether you want unique votings based on IP or not',
@@ -115,7 +140,9 @@
 									<code>[total]</code>=total ratings <br />
 									<code>[avg]</code>=average <br />
 									<code>[per]</code>=percentage <br />
-									<code>[s]</code>=for plural vs singular of votes occurred
+									<code>[s]</code>=for plural vs singular of votes occurred <br />
+									<strong>NOTE</strong> <br />
+									<code>[total]</code> and <code>[avg]</code> is mandatory for Google Rich Snippets to work
 								',
 				'field' => 'kksr_legend',
 				'value' => get_option('kksr_legend')
@@ -219,7 +246,7 @@
 				    )
 				)
 			));
-			$Tooltips = unserialize(base64_decode(get_option('kksr_tooltips')));
+			$Tooltips = get_option('kksr_tooltips');
 			for($tooltip_i=0;$tooltip_i<get_option('kksr_stars');$tooltip_i++)
 			{
 				BhittaniPlugin_AdminMarkup::input(array(
@@ -289,23 +316,23 @@
 	    ?>
     </div>
     <!--bf_container __reset-->
-    <div class="bf_container __info <?php echo ($opt=='info')?'__active':''; ?>">
+    <div class="bf_container __help <?php echo ($opt=='info')?'__active':''; ?>">
     	<?php
     		BhittaniPlugin_AdminMarkup::html(
     			'<p>
 				    <strong>To manually use in your post/page using admin screen, use the star icon in your post/page editor</strong>
                     <br /><br />
                     <strong>For use in theme files:</strong>
-                    <br /> <code>&lt;?php if(function_exists("kk_star_ratings")) : echo kk_star_ratings($pid); endif; ?&gt;</code>
-                    <br />Where $pid is the post of the id
+                    <br /> <code class="_block">&lt;?php if(function_exists("kk_star_ratings")) : echo kk_star_ratings($pid); endif; ?&gt;</code>
+                    <br />Where $pid is the id of the post
 					<br /><br />
                     <strong>Get top rated posts as array of objects:</strong>
-                    <br /> <code>&lt;?php <br />   if(function_exists("kk_star_ratings_get")) <br />   { <br />      $top_rated_posts  = kk_star_ratings_get($total); <br />   } <br />?&gt;</code>
+                    <br /> <code class="_block">&lt;?php <br />   if(function_exists("kk_star_ratings_get")) <br />   { <br />      $top_rated_posts  = kk_star_ratings_get($total); <br />   } <br />?&gt;</code>
                     <br />Where $total is the limit (int)
 					<br />$top_rated_posts will contain an array of objects, each containing an ID and ratings.
-                    <br /><br />
-                    <strong>Example Usage:</strong>
-                    <code>
+                    <br />
+                    Example Usage:
+                    <code class="_block">
 <pre>
 foreach($top_rated_posts as $post)
 {
@@ -315,11 +342,51 @@ foreach($top_rated_posts as $post)
 }
 </pre>
                     </code>
+                    <strong>Action Hooks</strong>
+					<br />
+					When post rating is fetched initially.
+                    <code class="_block">
+<pre>
+add_action("kksr_init", "my_super_function1", 10, 3);
+</pre>
+                    </code>
+					example usage:
+					<code class="_block">
+<pre>
+function my_super_function1($post_id, $avg, $votes);
+{
+ // $post_id is the id of the post.
+ // $avg is the average ratings as a string (e.g. 4.3/5).
+ // $votes is the total amount of votes occured.
+
+ // Do your magic below
+}
+</pre>
+                    </code>
+					When a post gets rated
+                    <code class="_block">
+<pre>
+add_action("kksr_rate", "my_super_function2", 10, 3);
+</pre>
+                    </code>
+					example usage:
+					<code class="_block">
+<pre>
+function my_super_function2($post_id, $no_of_stars, $ip_address);
+{
+ // $post_id is the id of the post.
+ // $no_of_stars is the amount of stars the user rated.
+ // $ip_address is the ip address of the user.
+
+ // Do your magic below
+}
+</pre>
+                    </code>
 				 </p>'
     		); 
     	?>
     </div>
-    <!--bf_container __info-->
+    <!--bf_container __help-->
 	</form>
     </div>
     <!-- bf-wrap -->

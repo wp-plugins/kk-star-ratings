@@ -52,3 +52,6 @@
 	padding: 3px;
 	font-family: Arial, Helvetica, sans-serif;
 }
+.kk-star-ratings .kksr-legend .kksr-title {
+	display: none;
+}
