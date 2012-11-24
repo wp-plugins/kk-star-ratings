@@ -3,7 +3,7 @@
 
 Contributors: bhittani
 
-Donate link: http://wakeusup.com/2011/05/kk-star-ratings/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CM659D9SHGKE6
 
 Tags: star ratings, votings, rate posts, ajax ratings, infinite stars, unlimited stars, google rich snippets
 
@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.4.2
 
-Stable tag: 2.0
+Stable tag: 2.1
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
