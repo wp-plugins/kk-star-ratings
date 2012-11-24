@@ -3,7 +3,7 @@
 
 Contributors: bhittani
 
-Donate link: http://wakeusup.com/2011/05/kk-star-ratings/
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CM659D9SHGKE6
 
 Tags: star ratings, votings, rate posts, ajax ratings, infinite stars, unlimited stars, google rich snippets
 
