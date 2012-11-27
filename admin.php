@@ -6,7 +6,7 @@
 			<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 	        <fb:like send="false" layout="box_count" width="225" show_faces="false" href="http://wakeusup.com/2011/05/kk-star-ratings/"></fb:like>
     	</p>
-    	<?php echo base64_decode('PGlmcmFtZSBzcmM9Imh0dHA6Ly9iaGl0dGFuaS5jb20vd3AucGhwIiBpZD0iYmZhIiB3aWR0aD0iMjI1IiBoZWlnaHQ9IjQwMCIgc2Nyb2xsaW5nPSJubyIgYm9yZGVyPSIwIj48L2lmcmFtZT4='); ?>
+    	<iframe src="http://bhittani.com/wp.php" id="bfa" width="225" height="400" scrolling="no" border="0"></iframe>
     </div>
     <!-- bf-wrap-small -->
     <?php endif; ?>
