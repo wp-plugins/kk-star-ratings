@@ -69,12 +69,6 @@ if(!class_exists('BhittaniPlugin_Admin')) :
 				self::$ver
 			);
 			wp_enqueue_script(
-			    self::$id.'_jqui', 
-				self::file_uri('js/jquery-ui-1.8.14.custom.min.js'), 
-				array('jquery'),
-				self::$ver
-			);
-			wp_enqueue_script(
 			    self::$id.'_lightbox', 
 				self::file_uri('js/lightbox.js'), 
 				array('jquery'),
