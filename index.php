@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: Renewed from the ground up(as of v2.0), clean, animated and light weight ratings feature for your blog. With kk Star Ratings, you can <strong>allow your blog posts to be rated by your blog visitors</strong>. It also includes a <strong>widget</strong> which you can add to your sidebar to show the top rated post. Wait! There is more to it. Enjoy the extensive options you can set to customize this plugin.
-Version: 2.2
+Version: 2.2.1
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -16,9 +16,12 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 
 	class BhittaniPlugin_kkStarRatings extends BhittaniPlugin
 	{
+		private $_Menus;
+		
 		public function __construct($id, $nick, $ver)
 		{
 			parent::__construct($id, $nick, $ver);
+			$this->_Menus = array();
 		}
 		/** function/method
 		* Usage: hook js frontend
@@ -42,7 +45,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$this->enqueue_js('js', parent::file_uri('js.js'), $this->ver, array('jquery'), $Params, false, true);
 		}
 		/** function/method
-		* Usage: hook js admin
+		* Usage: hook js admin - helper
 		* Arg(0): null
 		* Return: void
 		*/
@@ -53,6 +56,18 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$Params['nonce'] = $nonce;
 			$Params['func_reset'] = 'kksr_admin_reset_ajax';
 			$this->enqueue_js('js_admin', parent::file_uri('js_admin.js'), $this->ver, array('jquery', 'bhittaniplugin_admin_script'), $Params);
+		}
+		/** function/method
+		* Usage: hook admin scripts
+		* Arg(0): null
+		* Return: void
+		*/
+		public function admin_scripts()
+		{
+			foreach($this->_Menus as $menu)
+			{
+				add_action('admin_print_scripts-'.$menu, array(&$this, 'js_admin'));
+			}
 		}
 		/** function/method
 		* Usage: hook css
@@ -202,7 +217,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 		public function menu()
 		{
 			// Create main menu tab
-			add_menu_page(
+			$this->_Menus[] = add_menu_page(
 				$this->nick.' - Settings', 
 				$this->nick, 
 	            'manage_options', 
@@ -211,7 +226,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				parent::file_uri('icon.png')
 			);
 			// Create images menu tab
-			add_submenu_page(
+			$this->_Menus[] = add_submenu_page(
 				$this->id.'_settings', 
 				$this->nick.' - Settings', 
 				'Settings', 
@@ -220,7 +235,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				array(&$this, 'options_general')
 			);
 			// Create images menu tab
-			add_submenu_page(
+			$this->_Menus[] = add_submenu_page(
 				$this->id.'_settings', 
 				$this->nick.' - Stars', 
 				'Stars', 
@@ -229,7 +244,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				array(&$this, 'options_stars')
 			);
 			// Create tooltips menu tab
-			add_submenu_page(
+			$this->_Menus[] = add_submenu_page(
 				$this->id.'_settings', 
 				$this->nick.' - Tooltips', 
 				'Tooltips', 
@@ -238,7 +253,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				array(&$this, 'options_tooltips')
 			);
 			// Create reset menu tab
-			add_submenu_page(
+			$this->_Menus[] = add_submenu_page(
 				$this->id.'_settings', 
 				$this->nick.' - Reset', 
 				'Reset', 
@@ -247,7 +262,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				array(&$this, 'options_reset')
 			);
 			// Create info menu tab
-			add_submenu_page(
+			$this->_Menus[] = add_submenu_page(
 				$this->id.'_settings', 
 				$this->nick.' - Help', 
 				'Help', 
@@ -594,7 +609,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 	add_action('wp_enqueue_scripts', array($kkStarRatings_obj, 'js'));
 	add_action('wp_enqueue_scripts', array($kkStarRatings_obj, 'css'));
 	add_action('wp_head', array($kkStarRatings_obj, 'css_custom'));
-	add_action('admin_enqueue_scripts', array($kkStarRatings_obj, 'js_admin'));
+	add_action('admin_init', array($kkStarRatings_obj, 'admin_scripts'));
 	
 	// Menu
 	add_action('admin_menu', array($kkStarRatings_obj, 'menu'));
