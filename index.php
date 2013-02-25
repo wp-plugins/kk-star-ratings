@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: Renewed from the ground up(as of v2.0), clean, animated and light weight ratings feature for your blog. With kk Star Ratings, you can <strong>allow your blog posts to be rated by your blog visitors</strong>. It also includes a <strong>widget</strong> which you can add to your sidebar to show the top rated post. Wait! There is more to it. Enjoy the extensive options you can set to customize this plugin.
-Version: 2.2.1
+Version: 2.3
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -427,9 +427,28 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			echo json_encode($Response);
 			die();
 		}
+		protected function trim_csv_cb($value)
+		{
+			if(trim($value)!="")
+			    return true;
+			return false;
+		}
+		protected function exclude_cat($id)
+		{
+			$excl_categories = parent::get_options('kksr_exclude_categories');
+			$Cat_ids = $excl_categories ? array_filter(array_map('trim', explode(",", $excl_categories)), array(&$this, 'trim_csv_cb')) : array();
+			$Post_cat_ids = wp_get_post_categories($id);
+			$Intersection = array_intersect($Cat_ids, $Post_cat_ids);
+			return count($Intersection);
+		}
 		public function markup($id=false)
 		{
 			$id = !$id ? get_the_ID() : $id;
+			if($this->exclude_cat($id)) 
+			{
+				return '';
+			}
+
 			$disabled = false;
 			if(get_post_meta($id, '_kksr_ips', true))
 			{

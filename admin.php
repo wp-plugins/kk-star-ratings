@@ -88,6 +88,12 @@
 				    )
 				)
 			));
+			BhittaniPlugin_AdminMarkup::input(array(
+				'title' => 'Exclude following category(s)',
+				'description' => 'Comma seperated ids of categories.<br />e.g. <em>5,47,2</em>',
+				'field' => 'kksr_exclude_categories',
+				'value' => get_option('kksr_exclude_categories')
+			));
 			BhittaniPlugin_AdminMarkup::checkbox(array(
 				'title' => 'Google Rich Snippets',
 				'description' => 'Do you want Google to index the ratings and hopefully show it in the search results',

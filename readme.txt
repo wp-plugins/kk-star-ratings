@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.5.1
 
-Stable tag: 2.2.1
+Stable tag: 2.3
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -127,6 +127,9 @@ Visit the help tab in the settings to find out what you can do.
 
 
 == Changelog ==
+
+= 2.3 =
+* Added: Ability to exclude specific category(s).
 
 = 2.2.1 =
 * Update: Restricted admin scripts to render in its own page scope.
