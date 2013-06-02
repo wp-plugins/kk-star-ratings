@@ -265,11 +265,10 @@ input.button {
 	display: block;
 }
 
-
-div.bhittani-lightbox div.kkpopup {border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;line-height:20px;text-align:center;overflow:hidden;background-color:#FFF;position:absolute;top:0px;left:0px;z-index:9999;font-family:Verdana,Geneva,sans-serif;font-size:12px;padding:10px;min-height:15px; display:none;}
-div.bhittani-lightbox div.kkpopup-bg {display:none;background-color:#FFF;padding:10px;position:absolute;z-index:999;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;}
-div.bhittani-lightbox div.kkpopup-exit {overflow:hidden;float:right;width:20px;position:absolute;z-index:9999; display:none;}
-div.bhittani-lightbox div.kkpopup-exit a {padding:3px;color:#999;font-weight:bold;float:right;font-family:Verdana,Geneva,sans-serif;font-size:16px;text-decoration:none;}
+div.bhittani-lightbox div.kkpopup {border:1px solid #999;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;line-height:20px;overflow:hidden;background-color:#FFF;position:absolute;top:0px;left:0px;z-index:9999;font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;font-size:12px;padding:10px;min-height:15px; display:none;}
+div.bhittani-lightbox div.kkpopup-bg {display:none;background-color:#FFF;padding:10px;position:absolute;z-index:999;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;border:1px solid #999;box-shadow: 0 0px 100px #000;}
+div.bhittani-lightbox div.kkpopup-exit {border-radius:300px;-moz-border-radius:300px;-webkit-border-radius:300px;position:absolute;z-index:99999; display:none;}
+div.bhittani-lightbox div.kkpopup-exit a {background-color: #AAA;border-radius:300px;-moz-border-radius:300px;-webkit-border-radius:300px;line-height: 0px;display: block;text-align: center;padding: 7px;}
 div.bhittani-lightbox span.kkpopup__processing {display:none;}
 div.bhittani-lightbox img.kkpopup-process {padding-top:3px;padding-right:5px;float:left;}
-div.bhittani-lightbox.kkpopup-lightbox {position:absolute;top:0px;left:0px;z-index:99;display:none;}
+div.bhittani-lightbox.kkpopup-lightbox {position:fixed;top:0px;left:0px;z-index:99;display:none;}

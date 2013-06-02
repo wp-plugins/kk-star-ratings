@@ -27,7 +27,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings_Shortcode')) :
 		{
 			//echo WP_PLUGIN_URL.'/kk-star-ratings/shortcode/mce/kkstarratings/editor_plugin.js';
 			//$plugin_array['kkstarratings'] = WP_PLUGIN_URL.'/kk-star-ratings/shortcode/mce/kkstarratings/editor_plugin.js';
-			$plugin_array['kkstarratings'] = BhittaniPlugin::file_uri('shortcode/mce/kkstarratings/editor_plugin.js');
+			$plugin_array['kkstarratings'] = BhittaniPlugin_kkStarRatings::file_uri('shortcode/mce/kkstarratings/editor_plugin.js');
 			return $plugin_array;
 		}
 	}

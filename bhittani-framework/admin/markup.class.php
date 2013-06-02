@@ -38,8 +38,8 @@ if(!class_exists('BhittaniPlugin_AdminMarkup')) :
 		private static function _prepend($title='', $description='', $html='')
 		{
 		    $html .= '<div class="bf_box">';
-			$html .= !empty($description) ? '	<div class="bf_aside">'.$description.'</div>' : '';
-			$html .= !empty($title) ? '	<h4>'.$title.'</h4>' : '';
+			$html .= !empty($description) ? ('	<div class="bf_aside">' . $description . '</div>') : '';
+			$html .= !empty($title) ? ('	<h4>' . $title . '</h4>') : '';
 			return $html;
 		}
 		private static function _append($html)
@@ -62,7 +62,7 @@ if(!class_exists('BhittaniPlugin_AdminMarkup')) :
 		{
 			extract($_attr);
 			
-			$_html = '<input type="text" name="'.$field.'" class="'.(isset($class)?$class:'').'" value="'.(isset($value)?$value:'').'" />';
+			$_html = '<input type="text" name="'.$field.'" class="'.(isset($class)?$class:'').'" value="'.(isset($value)?$value:'').'" placeholder="'.(isset($placeholder)?$placeholder:'').'" />';
 			
 			return self::_element($title, $description, $_html, $_echo);
 		}
@@ -98,7 +98,7 @@ if(!class_exists('BhittaniPlugin_AdminMarkup')) :
 				foreach($obj as $O)
 				{
 					extract($O);
-					$_html .= '<div'.(isset($pclass)?' class="'.$pclass.'"':'').'>';
+					$_html .= '<div'.(isset($pclass)?(' class="'.$pclass.'"'):'').'>';
 		            $_html .= '    <input type="text" name="'.$field.'" class="chkbox '.(isset($value)&&$value?'_on':'_off').' modern allow-click bf__checkbox '.(isset($class)?$class:'').'" value="'.(isset($value)?$value:'0').'" />';
 		            $_html .= '    <span class="bf-label allow-click">'.$label.'</span>';
 		            $_html .= '</div>';
@@ -111,7 +111,7 @@ if(!class_exists('BhittaniPlugin_AdminMarkup')) :
 		{
 			extract($_attr);
 			
-			$_html = '<div'.(isset($pclass)?' class="'.$pclass.'"':'').'>';
+			$_html = '<div'.(isset($pclass)?(' class="'.$pclass.'"'):'').'>';
             $_html .= '    <input type="text" name="'.$field.'" class="color modern allow-click bf__color '.(isset($class)?$class:'').'" value="'.(isset($value)?$value:'#FFFFFF').'" style="background-color:'.(isset($value)?$value:'#FFFFFF').';" />';
             $_html .= '    <span class="bf-label allow-click">'.$label.'</span>';
             $_html .= '</div>';

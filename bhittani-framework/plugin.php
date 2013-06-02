@@ -83,10 +83,10 @@ if(!class_exists('BhittaniPlugin')) :
 				</script>
 				<?php
 			}	
-			wp_enqueue_script($this->id.($slug?'_'.$slug:''), $file, is_array($prerequisite)?$prerequisite:array('jquery'), $ver ? $ver : $this->ver, $footer);
+			wp_enqueue_script($this->id.($slug?('_'.$slug):''), $file, is_array($prerequisite)?$prerequisite:array('jquery'), $ver ? $ver : $this->ver, $footer);
 			
 			if(is_array($params) && !$json) 
-				wp_localize_script($this->id.($slug?'_'.$slug:''), str_replace('-','_',$this->id).'_'.$slug, $params);
+				wp_localize_script($this->id.($slug?('_'.$slug):''), str_replace('-','_',$this->id).'_'.$slug, $params);
 		}
 		/** function/method
 		* Usage: helper for hooking css scripts
@@ -95,8 +95,8 @@ if(!class_exists('BhittaniPlugin')) :
 		*/
 		protected function enqueue_css($slug, $file, $ver = false)
 		{
-			wp_register_style( $this->id.($slug?'_'.$slug:''), $file, false, $ver ? $ver : $this->ver );
-			wp_enqueue_style( $this->id.($slug?'_'.$slug:'') );
+			wp_register_style( $this->id.($slug?('_'.$slug):''), $file, false, $ver ? $ver : $this->ver );
+			wp_enqueue_style( $this->id.($slug?('_'.$slug):''));
 		}
 	}
 	

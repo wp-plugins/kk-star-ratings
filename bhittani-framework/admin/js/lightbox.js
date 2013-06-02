@@ -61,9 +61,9 @@ var bhittani_lightbox_js = {
 			'width' : jQuery(document).width(),
 			'height' : jQuery(document).height(),
 			'opacity' : bhittani_lightbox_js._popup_opacity,
-			'background-color': bhittani_lightbox_js._popup_color,
+			'background-color': bhittani_lightbox_js._popup_color
 		});
-		if(bhittani_lightbox_js._popup_active) { jQuery(bhittani_lightbox_js._popup_lightbox).fadeIn('slow') }
+		if(bhittani_lightbox_js._popup_active) { jQuery(bhittani_lightbox_js._popup_lightbox).fadeIn('slow'); }
 	},
 	
 	lightbox_center : function()
@@ -80,8 +80,8 @@ var bhittani_lightbox_js = {
 			'top' : ((height)/2) - (epp_height/2) + jQuery(document).scrollTop()
 		}, 'fast', 'linear', function() {
 		    jQuery(bhittani_lightbox_js._popup_exit).stop(true,true).animate({
-				'left' : parseInt(popup.css('left'))+epp_width+25,
-				'top' : parseInt(popup.css('top'))-25
+				'left' : parseInt(popup.css('left'))+epp_width+10,
+				'top' : parseInt(popup.css('top'))-20
 			}, 'fast', 'linear');
 			jQuery(bhittani_lightbox_js._popup_bg).stop(true,true).animate({
 				'left' : ((width)/2) - (epp_width/2) + jQuery(document).scrollLeft() - 10,
@@ -98,7 +98,7 @@ var bhittani_lightbox_js = {
 		jQuery(bhittani_lightbox_js._popup).fadeOut('fast',function(){ jQuery(bhittani_lightbox_js._popup_bg).fadeOut(200, function(){ jQuery(bhittani_lightbox_js._popup_exit).fadeOut(200); }); });
 	},
 	
-	lightbox : function(html,arg,callback)
+	lightbox : function(html,arg,callback,w,h)
 	{
 		bhittani_lightbox_js._popup_active = true;
 			
@@ -108,11 +108,28 @@ var bhittani_lightbox_js = {
 		
 		popup.html((arg=='busy'?jQuery(bhittani_lightbox_js._popup_busy).html():'')+html+(arg=='confirm'?bhittani_lightbox_js.lightbox_confirm(callback):''));
 
-		var popup_width = popup.width() + 2;//(arg=='busy' ? jQuery(bhittani_lightbox_js._popup_busy).width() : 0);
-		var popup_height = popup.height();
+		var popup_width = 0;
+		var popup_height = 0;
+
+		if((w && popup.width()>w) || (h && popup.height()>h))
+		{
+			popup_width = w + 2;
+		    popup_height = h;
+			popup.css('overflow', 'auto');
+		}
+		else
+		{
+			popup_width = popup.width() + 2;
+		    popup_height = popup.height();
+		}
+
 		popup.css({'width':popup_width+'px','height':popup_height+'px'});
 
-		jQuery(bhittani_lightbox_js._popup_bg).css({'opacity':0.5,'width':(popup_width+20)+'px','height':(popup_height+20)+'px'});
+		jQuery(bhittani_lightbox_js._popup_bg).css({
+			'opacity': 0.5,
+			'width': (popup_width+20)+'px',
+			'height': (popup_height+20)+'px'
+		});
         
 		bhittani_lightbox_js.lightbox_center();
 
@@ -143,6 +160,6 @@ var bhittani_lightbox_js = {
 }
 
 jQuery(document).ready( function($){
-	bhittani_lightbox_js._init('.bhittani-lightbox', 'black', '0.6');
+	bhittani_lightbox_js._init('.bhittani-lightbox', '#222', '0.7');
 });
 

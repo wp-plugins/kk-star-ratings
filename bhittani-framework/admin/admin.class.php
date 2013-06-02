@@ -61,6 +61,8 @@ if(!class_exists('BhittaniPlugin_Admin')) :
 		*/
 		public static function js()
 		{
+			wp_enqueue_script('jquery');
+
 			wp_enqueue_script('media-upload');
 			wp_enqueue_script(
 			    self::$id.'_colorpicker', 

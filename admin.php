@@ -218,7 +218,7 @@
 				'field' => 'kksr_stars_gray',
 				'label' => 'Choose an image',
 				'caption' => 'Gray Star',
-				'value' => get_option('kksr_stars_gray') ? get_option('kksr_stars_gray') : BhittaniPlugin::file_uri('gray.png')
+				'value' => get_option('kksr_stars_gray') ? get_option('kksr_stars_gray') : BhittaniPlugin_kkStarRatings::file_uri('gray.png')
 			));
 			BhittaniPlugin_AdminMarkup::image(array(
 				'title' => 'Yellow Star',
@@ -226,7 +226,7 @@
 				'field' => 'kksr_stars_yellow',
 				'label' => 'Choose an image',
 				'caption' => 'Yellow Star',
-				'value' => get_option('kksr_stars_yellow') ? get_option('kksr_stars_yellow') : BhittaniPlugin::file_uri('yellow.png')
+				'value' => get_option('kksr_stars_yellow') ? get_option('kksr_stars_yellow') : BhittaniPlugin_kkStarRatings::file_uri('yellow.png')
 			));
 			BhittaniPlugin_AdminMarkup::image(array(
 				'title' => 'Orange Star',
@@ -234,7 +234,7 @@
 				'field' => 'kksr_stars_orange',
 				'label' => 'Choose an image',
 				'caption' => 'Orange Star',
-				'value' => get_option('kksr_stars_orange') ? get_option('kksr_stars_orange') : BhittaniPlugin::file_uri('orange.png')
+				'value' => get_option('kksr_stars_orange') ? get_option('kksr_stars_orange') : BhittaniPlugin_kkStarRatings::file_uri('orange.png')
 			));
 	    ?>
     </div>

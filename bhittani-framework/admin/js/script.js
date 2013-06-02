@@ -18,7 +18,7 @@
 			});
 		},
 		
-		ajax_post : function($, params, action, nonce, waiting_msg)
+		ajax_post : function($, params, action, nonce, waiting_msg, callback_success)
 		{
 			$.ajax({
 				url: bf_admin._ajaxurl,
@@ -29,7 +29,10 @@
 					bhittani_lightbox_js.lightbox(waiting_msg, 'busy', false);
 				},
 				success: function(response){
-					
+					if(callback_success)
+					{
+						callback_success(response);
+					}
 				},
 				complete: function(){
 					bhittani_lightbox_js.lightbox('Done', 'unclose', false);

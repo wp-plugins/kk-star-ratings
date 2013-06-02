@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: Renewed from the ground up(as of v2.0), clean, animated and light weight ratings feature for your blog. With kk Star Ratings, you can <strong>allow your blog posts to be rated by your blog visitors</strong>. It also includes a <strong>widget</strong> which you can add to your sidebar to show the top rated post. Wait! There is more to it. Enjoy the extensive options you can set to customize this plugin.
-Version: 2.3
+Version: 2.3.1
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -22,6 +22,32 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 		{
 			parent::__construct($id, $nick, $ver);
 			$this->_Menus = array();
+		}
+		/**
+		  * File uri
+		  *
+		  * @since 1.0 Initially defined
+		  *
+		  * @param string $path Path to file.
+		  *
+		  * @return string full uri.
+		  */
+		public static function file_uri($path)
+		{
+			return plugins_url($path, __FILE__);
+		}
+		/**
+		  * File path
+		  *
+		  * @since 1.0 Initially defined
+		  *
+		  * @param string $path Path to file.
+		  *
+		  * @return string full path.
+		  */
+		public static function file_path($path)
+		{
+			return dirname(__FILE__).'/'.$path;
 		}
 		/** function/method
 		* Usage: hook js frontend
@@ -42,7 +68,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$Params['error_msg'] = parent::get_options('kksr_js_error');
 			$Params['tooltip'] = parent::get_options('kksr_tooltip');
 			$Params['tooltips'] = parent::get_options('kksr_tooltips');
-			$this->enqueue_js('js', parent::file_uri('js.js'), $this->ver, array('jquery'), $Params, false, true);
+			$this->enqueue_js('js', self::file_uri('js.js'), $this->ver, array('jquery'), $Params, false, true);
 		}
 		/** function/method
 		* Usage: hook js admin - helper
@@ -55,7 +81,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$Params = array();
 			$Params['nonce'] = $nonce;
 			$Params['func_reset'] = 'kksr_admin_reset_ajax';
-			$this->enqueue_js('js_admin', parent::file_uri('js_admin.js'), $this->ver, array('jquery', 'bhittaniplugin_admin_script'), $Params);
+			$this->enqueue_js('js_admin', self::file_uri('js_admin.js'), $this->ver, array('jquery', 'bhittaniplugin_admin_script'), $Params);
 		}
 		/** function/method
 		* Usage: hook admin scripts
@@ -76,7 +102,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 		*/
 		public function css()
 		{
-			$this->enqueue_css('', parent::file_uri('css.css'));
+			$this->enqueue_css('', self::file_uri('css.css'));
 		}
 		/** function/method
 		* Usage: hook custom css
@@ -223,7 +249,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 	            'manage_options', 
 				$this->id.'_settings', 
 				array(&$this, 'options_general'),
-				parent::file_uri('icon.png')
+				self::file_uri('icon.png')
 			);
 			// Create images menu tab
 			$this->_Menus[] = add_submenu_page(
@@ -286,15 +312,15 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$h3 = 'kk Star Ratings';
 			$Url = array(
 			    array(
-				    'title' => 'Docs',
-				    'link' => 'http://wp.bhittani.com/plugins/kk-star-ratings/docs'
+				    'title' => 'Home',
+				    'link' => 'http://wpapis.com/kk-star-ratings/'
 				),
 				array(
 					'title' => 'Changelog',
-				    'link' => 'http://wp.bhittani.com/plugins/kk-star-ratings/changelog'
+				    'link' => 'http://wpapis.com/kk-star-ratings/#tab-1369077219827-3-8'
 				)
 			);
-			include parent::file_path('admin.php');
+			include self::file_path('admin.php');
 		}
 		/** function/method
 		* Usage: show general options
