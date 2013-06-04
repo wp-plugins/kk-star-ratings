@@ -4,7 +4,7 @@
 Plugin Name: kk Star Ratings
 Plugin URI: http://wakeusup.com/2011/05/kk-star-ratings/
 Description: Renewed from the ground up(as of v2.0), clean, animated and light weight ratings feature for your blog. With kk Star Ratings, you can <strong>allow your blog posts to be rated by your blog visitors</strong>. It also includes a <strong>widget</strong> which you can add to your sidebar to show the top rated post. Wait! There is more to it. Enjoy the extensive options you can set to customize this plugin.
-Version: 2.3.1
+Version: 2.4
 Author: Kamal Khan
 Author URI: http://bhittani.com
 License: GPLv2 or later
@@ -63,12 +63,12 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$Params['ajaxurl'] = admin_url('admin-ajax.php');
 			$Params['func'] = 'kksr_ajax';
 			$Params['msg'] = parent::get_options('kksr_init_msg');
-			$Params['fueldspeed'] = parent::get_options('kksr_js_fuelspeed');
+			$Params['fuelspeed'] = (int) parent::get_options('kksr_js_fuelspeed');
 			$Params['thankyou'] = parent::get_options('kksr_js_thankyou');
 			$Params['error_msg'] = parent::get_options('kksr_js_error');
 			$Params['tooltip'] = parent::get_options('kksr_tooltip');
 			$Params['tooltips'] = parent::get_options('kksr_tooltips');
-			$this->enqueue_js('js', self::file_uri('js.js'), $this->ver, array('jquery'), $Params, false, true);
+			$this->enqueue_js('js', self::file_uri('js.min.js'), $this->ver, array('jquery'), $Params, false, true);
 		}
 		/** function/method
 		* Usage: hook js admin - helper
@@ -169,7 +169,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 			$Options['kksr_column'] = isset($Old_plugin['column']) ? $Old_plugin['column'] : $opt_column;
 			
 			// Upgrade from old plugin(<2.0) to renewed plugin(>=2.0)
-			if($Old_plugin)
+			if(!$ver_previous || version_compare($ver_previous, '2.0', '<'))
 			{
 				// Delete old options
 				parent::delete_options('kk-ratings');
@@ -229,11 +229,8 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				$Options['kksr_tooltips'] = base64_encode(serialize($Opt_tooltips));
 				parent::update_options($Options);
 			}
-			if(parent::get_options('kksr_ver')!='2.1')
-			{
-				parent::update_options(array('kksr_grs'=>1));
-			}
-			parent::update_options(array('kksr_ver'=>2.1));
+
+			parent::update_options(array('kksr_ver'=>$ver_current));
 		}
 		/** function/method
 		* Usage: helper for hooking (registering) the menu
@@ -399,29 +396,34 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 
 			$Response = array();
 
-			$total_stars = is_numeric(parent::get_options('kksr_stars')) ? parent::get_options('kksr_stars') : 5;
+			$total_stars = is_numeric(parent::get_options('kksr_stars')) ? parent::get_options('kksr_stars') : 5; 
 
-			$pid = $_POST['id'];
-			$stars = $_POST['stars'];
+			$stars = is_numeric($_POST['stars']) && ((int)$_POST['stars']>0) && ((int)$_POST['stars']<=$total_stars)
+					? $_POST['stars']:
+					0;
 			$ip = $_SERVER['REMOTE_ADDR'];
+
+			$Ids = explode(',', $_POST['id']);
+
+			foreach($Ids as $pid) :
 
 			$ratings = get_post_meta($pid, '_kksr_ratings', true) ? get_post_meta($pid, '_kksr_ratings', true) : 0;
 			$casts = get_post_meta($pid, '_kksr_casts', true) ? get_post_meta($pid, '_kksr_casts', true) : 0;
 
 			if($stars==0 && $ratings==0)
 			{
-				$Response['legend'] = parent::get_options('kksr_init_msg');
-				$Response['disable'] = 'false';
-				$Response['fuel'] = '0';
+				$Response[$pid]['legend'] = parent::get_options('kksr_init_msg');
+				$Response[$pid]['disable'] = 'false';
+				$Response[$pid]['fuel'] = '0';
 				do_action('kksr_init', $pid, false, false);
 			}
 			else
 			{
 				$nratings = $ratings + ($stars/($total_stars/5));
 				$ncasts = $casts + ($stars>0);
-				$avg = $nratings ? round($nratings/$ncasts,1) : 0;
-				$per = $nratings ? round((($nratings/$ncasts)/5)*100) : 0;
-				$Response['disable'] = 'false';
+				$avg = $nratings ? number_format((float)($nratings/$ncasts), 2, '.', '') : 0;
+				$per = $nratings ? number_format((float)((($nratings/$ncasts)/5)*100), 2, '.', '') : 0;
+				$Response[$pid]['disable'] = 'false';
 				if($stars)
 				{
 					$Ips = get_post_meta($pid, '_kksr_ips', true) ? unserialize(base64_decode(get_post_meta($pid, '_kksr_ips', true))) : array();
@@ -434,22 +436,25 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 					update_post_meta($pid, '_kksr_casts', $ncasts);
 					update_post_meta($pid, '_kksr_ips', $ips);
 					update_post_meta($pid, '_kksr_avg', $avg);
-					$Response['disable'] = parent::get_options('kksr_unique') ? 'true' : 'false';
+					$Response[$pid]['disable'] = parent::get_options('kksr_unique') ? 'true' : 'false';
 					do_action('kksr_rate', $pid, $stars, $ip);
 				}
 				else
 				{
-					do_action('kksr_init', $pid, ($avg*($total_stars/5)).'/'.$total_stars, $ncasts);
+					do_action('kksr_init', $pid, number_format((float)($avg*($total_stars/5)), 2, '.', '').'/'.$total_stars, $ncasts);
 				}
 				$legend = parent::get_options('kksr_legend');
 				$legend = str_replace('[total]', $ncasts, $legend);
-				$legend = str_replace('[avg]', ($avg*($total_stars/5)).'/'.$total_stars, $legend);
+				$legend = str_replace('[avg]', number_format((float)($avg*($total_stars/5)), 2, '.', '').'/'.$total_stars, $legend);
 				$legend = str_replace('[s]', $ncasts==1?'':'s', $legend);
-				$Response['legend'] = str_replace('[per]',$per.'%', $legend);
-				$Response['fuel'] = $per;
+				$Response[$pid]['legend'] = str_replace('[per]',$per.'%', $legend);
+				$Response[$pid]['fuel'] = $per;
 			}
+
+			$Response[$pid]['success'] = true;
+
+			endforeach;
 			
-			$Response['success'] = 'true';
 			echo json_encode($Response);
 			die();
 		}
@@ -587,14 +592,15 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 		}
 		public function add_row($Columns, $id)
 		{
-			$total_stars = parent::get_options('kksr_stars');
 			if(parent::get_options('kksr_column'))
 			{
+				$total_stars = parent::get_options('kksr_stars');
 				$row = 'No ratings';
 				$raw = (get_post_meta($id, '_kksr_ratings', true)?get_post_meta($id, '_kksr_ratings', true):0);
 				if($raw)
 				{
-					$avg = '<strong>'.(get_post_meta($id, '_kksr_avg', true)?(get_post_meta($id, '_kksr_avg', true)*($total_stars/5)).'/'.$total_stars:'0').'</strong>';
+					$_avg = get_post_meta($id, '_kksr_avg', true);
+					$avg = '<strong>'.($_avg?((number_format((float)($_avg*($total_stars/5)), 2, '.', '')).'/'.$total_stars):'0').'</strong>';
 					$cast = (get_post_meta($id, '_kksr_casts', true)?get_post_meta($id, '_kksr_casts', true):'0').' votes';
 					$per = ($raw>0?ceil((($raw/$cast)/5)*100):0).'%';
 					$row = $avg . ' (' . $per . ') ' . $cast;
@@ -604,6 +610,36 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 					case 'kk_star_ratings' : echo $row; break;
 				}
 			}
+		}
+		/** function/method
+		* Usage: Allow sorting of columns
+		* Arg(1): $Args (array)
+		* Return: (array)
+		*/
+		public function sort_columns($Args)
+		{
+			$Args = array_merge($Args,
+				array('kk_star_ratings' => 'kk_star_ratings')
+			);
+			return wp_parse_args($Args);
+		}
+		/** function/method
+		* Usage: Allow sorting of columns - helper
+		* Arg(1): $Query (array)
+		* Return: null
+		*/
+		public function sort_columns_helper($Query)
+		{
+			if(!is_admin())
+			{
+				return;
+			}
+		    $orderby = $Query->get( 'orderby');  
+		    if($orderby=='kk_star_ratings')
+		    {  
+		        $Query->set('meta_key','_kksr_avg');
+		        $Query->set('orderby','meta_value_num');  
+		    }
 		}
 		public function grs_legend($legend, $id)
 		{
@@ -617,8 +653,8 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 				if($score)
 				{
 					$votes = get_post_meta($id, '_kksr_casts', true) ? get_post_meta($id, '_kksr_casts', true) : 0;
-					$avg = $score ? round($score/$votes,1) : 0;
-					$per = $score ? round((($score/$votes)/5)*100) : 0;
+					$avg = $score ? number_format((float)($score/$votes), 2, '.', '') : 0;
+					$per = $score ? number_format((float)((($score/$votes)/5)*100), 2, '.', '') : 0;
 					
 					$leg = str_replace('[total]', '<span property="v:votes">'.$votes.'</span>', $legend);
 					$leg = str_replace('[avg]', '<span property="v:average">'.$avg.'</span>/<span property="v:best">'.$best.'</span>', $leg);
@@ -645,7 +681,7 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 		}
 	}
 
-	$kkStarRatings_obj = new BhittaniPlugin_kkStarRatings('bhittani_plugin_kksr', 'kk Star Ratings', '2.2');
+	$kkStarRatings_obj = new BhittaniPlugin_kkStarRatings('bhittani_plugin_kksr', 'kk Star Ratings', '2.4');
     
 	// Setup
     register_activation_hook(__FILE__, array($kkStarRatings_obj, 'activate'));
@@ -677,6 +713,8 @@ if(!class_exists('BhittaniPlugin_kkStarRatings')) :
 	add_filter( 'manage_pages_columns', array($kkStarRatings_obj, 'add_column') );
 	add_filter( 'manage_posts_custom_column', array($kkStarRatings_obj, 'add_row'), 10, 2 );
 	add_filter( 'manage_pages_custom_column', array($kkStarRatings_obj, 'add_row'), 10, 2 );
+	add_filter( 'manage_edit-post_sortable_columns', array($kkStarRatings_obj, 'sort_columns') );
+	add_filter( 'pre_get_posts', array($kkStarRatings_obj, 'sort_columns_helper') );
 
     // For use in themes
 	if(!function_exists('kk_star_ratings'))

@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 3.5.1
 
-Stable tag: 2.3.1
+Stable tag: 2.4
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
@@ -42,6 +42,10 @@ Enhanced settings page where you can adjust quite anything you may need to. You 
 1. A visual button in your editor to easily display the ratings manually in your posts/pages. No more typing a shortcode :)
 
 1. Google rich snippets. Ratings will be shown in google search results :)
+
+1. Have a thousand of ratings on a single page? No worries, all will be fetched in a single request (as of v2.4).
+
+1. Revamped the entire frontend js (normal: 6.03KB, minified: 4.29KB)
 
 1. Ratings column in your admin posts/pages screen so you can view the statistics at comfort.
 
@@ -128,8 +132,17 @@ Visit the help tab in the settings to find out what you can do.
 
 == Changelog ==
 
+= 2.4 =
+* Fix: Upper and Lower boundary limits for rating. Oops, had not noticed this before.
+* Fix: Fuelspeed. Strange! no one ever complained about it.
+* Update: Revamped the entire javascript (normal: 6.03KB, minified: 4.29KB).
+* Update: Two fixed decimal points for average and percentage instead of one.
+* Update: Icon star color from grey to yellow.
+* Added: Efficient fetching of ratings. No matter how many ratings you may have on a page, they will all be fetched in a single go :)
+* Added: Rating column can now be sorted in the admin screen.
+
 = 2.3.1 =
-* Updated: Framework updated for no conflict mode with other kk plugins.
+* Update: Framework updated for no conflict mode with other kk plugins.
 
 = 2.3 =
 * Added: Ability to exclude specific category(s).
