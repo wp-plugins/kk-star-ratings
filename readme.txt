@@ -11,7 +11,7 @@ Requires at least: 3.0
 
 Tested up to: 4.1
 
-Stable tag: 2.4
+Stable tag: 2.4.1
 
 
 kk Star Ratings allows blog visitors to involve and interact more effectively with your website by rating posts.
